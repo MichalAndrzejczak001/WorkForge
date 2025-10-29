@@ -1,0 +1,13 @@
+# mysql-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-mysql
+spec:
+  type: ClusterIP
+  selector:
+    app: hello-mysql
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
