@@ -44,7 +44,7 @@ spec:
               echo "MySQL is up"
       containers:
         - name: hello
-          image: hello-sb:0.2
+          image: hello-sb:0.3
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
@@ -63,7 +63,7 @@ spec:
                   key: mysql-password
           readinessProbe:
             httpGet:
-              path: /
+              path: /api/v1/test/get1
               port: 8080
             initialDelaySeconds: 5
             periodSeconds: 5
