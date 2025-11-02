@@ -14,7 +14,7 @@ public class TestController {
         return ResponseEntity.ok("testing endpoint for readiness probe");
     }
 
-    @GetMapping("/7")
+    @GetMapping("/9")
     ResponseEntity<String> get2() {
         return ResponseEntity.ok("different endpoint");
     }
