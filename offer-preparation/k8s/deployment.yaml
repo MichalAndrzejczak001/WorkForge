@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: hello
-          image: hello-sb:0.9
+          image: hello-sb:0.10
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
