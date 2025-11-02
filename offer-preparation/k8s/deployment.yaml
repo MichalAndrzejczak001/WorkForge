@@ -14,56 +14,15 @@ spec:
       labels:
         app: hello
     spec:
-      initContainers:
-        - name: wait-for-mysql
-          image: mysql:8.0
-          env:
-            - name: MYSQL_HOST
-              value: hello-mysql
-            - name: MYSQL_PORT
-              value: "3306"
-            - name: MYSQL_USER
-              valueFrom:
-                secretKeyRef:
-                  name: hello-mysql-secret
-                  key: mysql-user
-            - name: MYSQL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: hello-mysql-secret
-                  key: mysql-password
-          command:
-            - sh
-            - -c
-            - |
-              echo "Waiting for MySQL..."
-              until mysql -h "$MYSQL_HOST" -P "$MYSQL_PORT" -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" -e "select 1" >/dev/null 2>&1; do
-                echo "MySQL not ready, sleeping 2s..."
-                sleep 2
-              done
-              echo "MySQL is up"
       containers:
         - name: hello
-          image: hello-sb:0.3
+          image: hello-sb:0.7
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
-          env:
-            - name: SPRING_DATASOURCE_URL
-              value: "jdbc:mysql://hello-mysql:3306/hello_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
-            - name: SPRING_DATASOURCE_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: hello-mysql-secret
-                  key: mysql-user
-            - name: SPRING_DATASOURCE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: hello-mysql-secret
-                  key: mysql-password
           readinessProbe:
             httpGet:
-              path: /api/v1/test/get1
+              path: /
               port: 8080
             initialDelaySeconds: 5
             periodSeconds: 5
