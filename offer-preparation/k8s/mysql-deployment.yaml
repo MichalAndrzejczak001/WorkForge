@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-mysql
+  labels:
+    app: hello-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-mysql
+  template:
+    metadata:
+      labels:
+        app: hello-mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8.0
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_DATABASE
+              value: hello_db
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: hello-mysql-secret
+                  key: mysql-user
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: hello-mysql-secret
+                  key: mysql-password
+            - name: MYSQL_ROOT_PASSWORD
+              value: rootpassword
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-data
+          emptyDir: {}   # dla prostoty; w prawdziwym środowisku użyj PersistentVolume
