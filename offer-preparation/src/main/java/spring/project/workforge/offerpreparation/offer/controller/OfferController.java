@@ -1,16 +1,14 @@
-package spring.project.workforge.offerpreparation.controller;
+package spring.project.workforge.offerpreparation.offer.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import spring.project.workforge.offerpreparation.model.dto.OfferCreateRequest;
-import spring.project.workforge.offerpreparation.model.dto.OfferResponse;
-import spring.project.workforge.offerpreparation.model.dto.OfferUpdateRequest;
-import spring.project.workforge.offerpreparation.service.OfferService;
+import spring.project.workforge.offerpreparation.offer.model.dto.OfferCreateRequest;
+import spring.project.workforge.offerpreparation.offer.model.dto.OfferResponse;
+import spring.project.workforge.offerpreparation.offer.model.dto.OfferUpdateRequest;
+import spring.project.workforge.offerpreparation.offer.service.OfferService;
 
 import java.net.URI;
 import java.util.List;

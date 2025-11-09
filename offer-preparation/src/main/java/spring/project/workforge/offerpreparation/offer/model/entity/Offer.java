@@ -1,10 +1,12 @@
-package spring.project.workforge.offerpreparation.model.entity;
+package spring.project.workforge.offerpreparation.offer.model.entity;
+
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import spring.project.workforge.offerpreparation.model.enums.WorkType;
+import spring.project.workforge.offerpreparation.location.model.entity.Location;
+import spring.project.workforge.offerpreparation.offer.model.enums.WorkType;
 
 import java.util.List;
 

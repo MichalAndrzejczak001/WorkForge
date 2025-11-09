@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: hello
-          image: hello-sb:0.10
+          image: hello-sb:0.14
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
@@ -37,5 +37,5 @@ spec:
             httpGet:
               path: /
               port: 8080
-            initialDelaySeconds: 10
+            initialDelaySeconds: 30
             periodSeconds: 5

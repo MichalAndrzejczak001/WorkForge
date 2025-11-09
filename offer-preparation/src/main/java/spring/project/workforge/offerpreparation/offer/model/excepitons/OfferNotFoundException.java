@@ -1,7 +1,5 @@
-package spring.project.workforge.offerpreparation.model.excepitons;
+package spring.project.workforge.offerpreparation.offer.model.excepitons;
 
-
-import spring.project.workforge.offerpreparation.model.entity.Offer;
 
 public class OfferNotFoundException extends RuntimeException {
     public OfferNotFoundException(String message) {
