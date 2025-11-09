@@ -80,7 +80,14 @@ public class OfferService implements IOfferService {
     @Override
     public void deleteOffer(Long id) {
         Offer offer = offerRepository.findById(id).orElseThrow(() -> new OfferNotFoundException("Offer with id " + id + "doesn't exist."));
+
+        Location loc = offer.getLocation();
+
         offerRepository.delete(offer);
+
+        if(loc != null) {
+            locationRepository.delete(loc);
+        }
     }
 
     private Location findOrCreateLocation(LocationRequest request) {
