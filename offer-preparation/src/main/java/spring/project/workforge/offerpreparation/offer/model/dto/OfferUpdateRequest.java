@@ -1,10 +1,11 @@
-package spring.project.workforge.offerpreparation.model.dto;
+package spring.project.workforge.offerpreparation.offer.model.dto;
 
-import spring.project.workforge.offerpreparation.model.enums.WorkType;
+import spring.project.workforge.offerpreparation.location.model.dto.LocationRequest;
+import spring.project.workforge.offerpreparation.offer.model.enums.WorkType;
 
 import java.util.List;
 
-public record OfferCreateRequest(
+public record OfferUpdateRequest(
         String title,
         String recruiter,
         String company,

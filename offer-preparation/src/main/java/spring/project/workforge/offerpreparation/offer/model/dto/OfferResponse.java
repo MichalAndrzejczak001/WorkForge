@@ -1,6 +1,7 @@
-package spring.project.workforge.offerpreparation.model.dto;
+package spring.project.workforge.offerpreparation.offer.model.dto;
 
-import spring.project.workforge.offerpreparation.model.enums.WorkType;
+import spring.project.workforge.offerpreparation.location.model.dto.LocationResponse;
+import spring.project.workforge.offerpreparation.offer.model.enums.WorkType;
 
 import java.util.List;
 

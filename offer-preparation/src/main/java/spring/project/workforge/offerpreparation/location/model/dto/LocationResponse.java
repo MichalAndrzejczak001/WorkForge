@@ -1,6 +1,6 @@
-package spring.project.workforge.offerpreparation.model.dto;
+package spring.project.workforge.offerpreparation.location.model.dto;
 
-public record LocationRequest(
+public record LocationResponse(
         Long id,
         String name,
         String address,
