@@ -13,8 +13,6 @@ public class StripeConfig {
 
     @PostConstruct
     public void init() {
-//        Stripe.apiKey = secretKey;
-        Stripe.apiKey = "sk_test_51SQPI7DkFpKnagwD2SXHCKH3JK7qO1anB8g3E5RFRaF5zLADusw9CcN7guL1NT70TjLLMHiGTu9zQGFZFW7wVTnr005AKOpwV2";
-        System.out.println("Stripe key loaded: " + secretKey);
+        Stripe.apiKey = secretKey;
     }
 }
