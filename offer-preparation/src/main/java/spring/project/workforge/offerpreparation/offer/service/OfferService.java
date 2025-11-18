@@ -65,6 +65,7 @@ public class OfferService implements IOfferService {
 
         checkDateCorrectness(offer);
         setStatus(offer);
+        offer.
 
         Offer savedOffer = offerRepository.save(offer);
         OfferResponse offerResponse = offerMapper.toResponse(savedOffer);
