@@ -1,6 +1,7 @@
 package spring.project.workforge.offerpreparation.offer.model.dto;
 
 import spring.project.workforge.offerpreparation.location.model.dto.LocationResponse;
+import spring.project.workforge.offerpreparation.offer.model.enums.Status;
 import spring.project.workforge.offerpreparation.offer.model.enums.WorkType;
 
 import java.time.LocalDateTime;
@@ -18,5 +19,6 @@ public record OfferResponse(
         Double experience,
         LocationResponse location,
         LocalDateTime startDate,
-        LocalDateTime endDate
+        LocalDateTime endDate,
+        Status status
 ) {}
