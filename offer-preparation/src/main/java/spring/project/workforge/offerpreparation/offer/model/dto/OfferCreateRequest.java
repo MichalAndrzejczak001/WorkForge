@@ -3,6 +3,7 @@ package spring.project.workforge.offerpreparation.offer.model.dto;
 import spring.project.workforge.offerpreparation.location.model.dto.LocationRequest;
 import spring.project.workforge.offerpreparation.offer.model.enums.WorkType;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public record OfferCreateRequest(
@@ -14,6 +15,8 @@ public record OfferCreateRequest(
         List<String> tags,
         List<Double> salary,
         Double experience,
-        LocationRequest location
+        LocationRequest location,
+        LocalDateTime startDate,
+        LocalDateTime endDate
 ) {}
 
