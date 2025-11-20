@@ -54,5 +54,5 @@ public class Offer {
 
     private Status status;
 
-    private IsPaid state;
+    private IsPaid isPaid;
 }

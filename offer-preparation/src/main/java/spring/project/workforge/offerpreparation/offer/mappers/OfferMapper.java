@@ -32,6 +32,8 @@ public class OfferMapper {
         offer.setSalary(request.salary());
         offer.setExperience(request.experience());
         offer.setLocation(locationMapper.toEntity(request.location()));
+        offer.setStartDate(request.startDate());
+        offer.setEndDate(request.endDate());
         return offer;
     }
 
@@ -47,6 +49,8 @@ public class OfferMapper {
         offer.setSalary(request.salary());
         offer.setExperience(request.experience());
         offer.setLocation(locationMapper.toEntity(request.location()));
+        offer.setStartDate(request.startDate());
+        offer.setEndDate(request.endDate());
     }
 
     // Encja -> DTO
@@ -62,7 +66,12 @@ public class OfferMapper {
                 offer.getTags(),
                 offer.getSalary(),
                 offer.getExperience(),
-                locationMapper.toResponse(offer.getLocation())
+                locationMapper.toResponse(offer.getLocation()
+                ),
+                offer.getStartDate(),
+                offer.getEndDate(),
+                offer.getStatus(),
+                offer.getIsPaid()
         );
     }
 

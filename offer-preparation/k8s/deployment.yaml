@@ -1,37 +1,37 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-deployment
+  name: offer-preparation-deployment
   labels:
-    app: hello
+    app: offer-preparation
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hello
+      app: offer-preparation
   template:
     metadata:
       labels:
-        app: hello
+        app: offer-preparation
     spec:
       containers:
-        - name: hello
-          image: hello-sb:0.15
+        - name: offer-preparation
+          image: offer-preparation:0.3
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
           env:
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://hello-mysql:3306/hello_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+              value: jdbc:mysql://offer-preparation-mysql:3306/offer-preparation_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: hello-mysql-secret
+                  name: offer-preparation-mysql-secret
                   key: mysql-user
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: hello-mysql-secret
+                  name: offer-preparation-mysql-secret
                   key: mysql-password
           readinessProbe:
             httpGet:

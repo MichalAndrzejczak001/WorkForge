@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import spring.project.workforge.offerpreparation.offer.model.dto.OfferCreateRequest;
 import spring.project.workforge.offerpreparation.offer.model.dto.OfferResponse;
+import spring.project.workforge.offerpreparation.offer.model.dto.OfferResponsePayment;
 import spring.project.workforge.offerpreparation.offer.model.dto.OfferUpdateRequest;
 import spring.project.workforge.offerpreparation.offer.service.OfferService;
 
@@ -34,12 +35,15 @@ public class OfferController {
     }
 
     @PostMapping
-    public ResponseEntity<OfferResponse> createOffer(@RequestBody OfferCreateRequest offer) {
-        OfferResponse created = offerService.createOffer(offer);
+    public ResponseEntity<OfferResponsePayment> createOffer(@RequestBody OfferCreateRequest offer) {
+        System.out.println("Info1");
+        OfferResponsePayment created = offerService.createOffer(offer);
+        System.out.println("Info12");
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(created.id())
+                .buildAndExpand(created.getOfferResponse().id())
                 .toUri();
+        System.out.println("Info13");
         return ResponseEntity.created(location).body(created);
     }
 
