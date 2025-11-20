@@ -2,20 +2,17 @@ package spring.project.workforge.payment.stripe;
 
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import spring.project.workforge.payment.stripe.model.dto.PaymentPayload;
 
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/payments")
+@RequestMapping("/api/v1/payments")
 public class PaymentController {
 
-    @PostMapping("/create-checkout-session")
-    public Map<String, String> createCheckoutSession(@RequestParam Long amount) throws Exception {
-        System.out.println("Hello World stripe");
+    @PostMapping("/create-payment")
+    public Map<String, String> createCheckoutSession(@RequestBody PaymentPayload payload) throws Exception {
         SessionCreateParams params =
                 SessionCreateParams.builder()
                         .setMode(SessionCreateParams.Mode.PAYMENT)
@@ -27,10 +24,11 @@ public class PaymentController {
                                         .setPriceData(
                                                 SessionCreateParams.LineItem.PriceData.builder()
                                                         .setCurrency("pln")
-                                                        .setUnitAmount(amount) // np. 4999 = 49,99 zł
+                                                        .setUnitAmount(payload.getAmount())  // cena w groszach
                                                         .setProductData(
                                                                 SessionCreateParams.LineItem.PriceData.ProductData.builder()
-                                                                        .setName("Produkt testowy")
+                                                                        .setName(payload.getDescription()) // opis/nazwa produktu
+                                                                        .putMetadata("offerId", payload.getId().toString()) // ID w metadanych
                                                                         .build()
                                                         )
                                                         .build()
