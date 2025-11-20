@@ -6,18 +6,20 @@ import org.springframework.transaction.annotation.Transactional;
 import spring.project.workforge.offerpreparation.location.model.dto.LocationRequest;
 import spring.project.workforge.offerpreparation.location.model.entity.Location;
 import spring.project.workforge.offerpreparation.location.repository.LocationRepository;
+import spring.project.workforge.offerpreparation.offer.client.PaymentPayload;
+import spring.project.workforge.offerpreparation.offer.client.PaymentWebClient;
 import spring.project.workforge.offerpreparation.offer.mappers.OfferMapper;
+import spring.project.workforge.offerpreparation.offer.model.dto.OfferResponsePayment;
 import spring.project.workforge.offerpreparation.offer.model.dto.OfferCreateRequest;
 import spring.project.workforge.offerpreparation.offer.model.dto.OfferResponse;
 import spring.project.workforge.offerpreparation.offer.model.dto.OfferUpdateRequest;
 import spring.project.workforge.offerpreparation.offer.model.entity.Offer;
+import spring.project.workforge.offerpreparation.offer.model.enums.IsPaid;
 import spring.project.workforge.offerpreparation.offer.model.enums.Status;
 import spring.project.workforge.offerpreparation.offer.model.excepitons.OfferInvalidDateException;
 import spring.project.workforge.offerpreparation.offer.model.excepitons.OfferNotFoundException;
 import spring.project.workforge.offerpreparation.offer.repository.OfferRepository;
 
-import java.beans.Transient;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -58,19 +60,39 @@ public class OfferService implements IOfferService {
 
     @Transactional
     @Override
-    public OfferResponse createOffer(OfferCreateRequest request) {
+    public OfferResponsePayment createOffer(OfferCreateRequest request) {
+        System.out.println("Info2");
         Location location = findOrCreateLocation(request.location());
+        System.out.println("Info3");
         Offer offer = offerMapper.toEntity(request);
+        System.out.println("Info4");
         offer.setLocation(location);
 
+        System.out.println("Info5");
         checkDateCorrectness(offer);
+        System.out.println("Info6");
         setStatus(offer);
-        offer.
+        System.out.println("Info7");
+        offer.setIsPaid(IsPaid.DRAFT);
+        System.out.println("Info8");
 
         Offer savedOffer = offerRepository.save(offer);
+        System.out.println("Info9");
         OfferResponse offerResponse = offerMapper.toResponse(savedOffer);
+        System.out.println("Info10");
 
-        return offerResponse;
+        String paymentUrl =  createPayment(savedOffer.getId(), 20000L, "Payment for job offfer");
+        System.out.println("Info11");
+
+        return new OfferResponsePayment(paymentUrl, offerResponse);
+    }
+
+    private String createPayment(Long id, Long amount, String description) {
+        PaymentWebClient paymentWebClient = new PaymentWebClient("http://localhost:8081");
+        PaymentPayload paymentPayload = new PaymentPayload(id, amount, description);
+
+        return paymentWebClient.sendPaymentRequest("/api/v1/payments/create-payment", paymentPayload);
+
     }
 
     @Transactional

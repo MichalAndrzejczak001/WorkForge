@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-mysql
+  name: offer-preparation-mysql
   labels:
-    app: hello-mysql
+    app: offer-preparation-mysql
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hello-mysql
+      app: offer-preparation-mysql
   template:
     metadata:
       labels:
-        app: hello-mysql
+        app: offer-preparation-mysql
     spec:
       containers:
         - name: mysql
@@ -21,16 +21,16 @@ spec:
             - containerPort: 3306
           env:
             - name: MYSQL_DATABASE
-              value: hello_db
+              value: offer-preparation_db
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
-                  name: hello-mysql-secret
+                  name: offer-preparation-mysql-secret
                   key: mysql-user
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: hello-mysql-secret
+                  name: offer-preparation-mysql-secret
                   key: mysql-password
             - name: MYSQL_ROOT_PASSWORD
               value: rootpassword
