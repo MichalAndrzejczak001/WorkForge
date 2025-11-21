@@ -7,6 +7,6 @@ spec:
     app: payment
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 8081
-  type: NodePort
+      port: 80        # port service
+      targetPort: 8081 # port aplikacji w kontenerze
+  type: ClusterIP     # <-- najważniejsze! port-forward używa tego typu
