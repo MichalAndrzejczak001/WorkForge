@@ -36,14 +36,11 @@ public class OfferController {
 
     @PostMapping
     public ResponseEntity<OfferResponsePayment> createOffer(@RequestBody OfferCreateRequest offer) {
-        System.out.println("Info1");
         OfferResponsePayment created = offerService.createOffer(offer);
-        System.out.println("Info12");
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(created.getOfferResponse().id())
                 .toUri();
-        System.out.println("Info13");
         return ResponseEntity.created(location).body(created);
     }
 

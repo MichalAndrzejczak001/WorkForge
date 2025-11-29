@@ -42,6 +42,9 @@ dependencies {
     //WebClient
     implementation("org.springframework.boot:spring-boot-starter-webflux:3.5.7")
 
+    //Kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+
     // Lombok
     compileOnly("org.projectlombok:lombok:1.18.42")
     annotationProcessor("org.projectlombok:lombok:1.18.42")

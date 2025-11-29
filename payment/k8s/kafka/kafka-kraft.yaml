@@ -1,0 +1,29 @@
+apiVersion: kafka.strimzi.io/v1
+kind: Kafka
+metadata:
+  name: my-kafka
+  namespace: kafka
+spec:
+  kafka:
+    version: 3.6.1
+    config:
+      # Włączenie trybu KRaft
+      process.roles: broker,controller
+      node.id: 1
+      controller.quorum.voters: "1@my-kafka-0.my-kafka.kafka.svc.cluster.local:9093"
+      listeners: PLAINTEXT://:9092,CONTROLLER://:9093
+      inter.broker.listener.name: PLAINTEXT
+      log.dirs: /tmp/kafka-logs
+    # Minimalny listener wymagany przez Strimzi v1
+    listeners:
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+      - name: controller
+        port: 9093
+        type: internal
+        tls: false
+  entityOperator:
+    topicOperator: {}
+    userOperator: {}

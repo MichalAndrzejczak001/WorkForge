@@ -1,0 +1,19 @@
+apiVersion: kafka.strimzi.io/v1   # zamiast v1beta2
+kind: Kafka
+metadata:
+  name: my-kafka
+  namespace: kafka
+spec:
+  kafka:
+    version: 4.1.0
+    listeners:
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+    config:
+      process.roles: "broker,controller"
+      controller.quorum.voters: "0@my-kafka-controller-0.my-kafka-controller.kafka.svc.cluster.local:9093"
+  entityOperator:
+    topicOperator: {}
+    userOperator: {}

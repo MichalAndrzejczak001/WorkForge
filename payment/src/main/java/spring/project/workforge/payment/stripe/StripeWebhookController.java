@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/payments")
+@RequestMapping("/api/v1/payments")
 public class StripeWebhookController {
 
     @Value("${stripe.webhook-secret}")
@@ -40,19 +40,14 @@ public class StripeWebhookController {
                 Session session = (Session) event.getDataObjectDeserializer()
                         .getObject().orElseThrow();
 
-                // 👉 tutaj zrobisz cokolwiek chcesz po płatności
-                System.out.println("MESSAGE:CHECKOUT COMPLETED: " + session.getId());
-                break;
+                // pobieramy metadata
+                String sessionMetadataId = session.getMetadata().get("id");
 
-            case "payment_intent.succeeded":
-                PaymentIntent intent = (PaymentIntent) event.getDataObjectDeserializer()
-                        .getObject().orElseThrow();
-
-                System.out.println("MESSAGE:PAYMENT SUCCEEDED: " + intent.getId());
+                System.out.println("CHECKOUT COMPLETED - metadata.id = " + sessionMetadataId);
                 break;
 
             default:
-                System.out.println("MESSAGE:Unhandled event type: " + event.getType());
+                System.out.println("Unhandled event type: " + event.getType());
         }
 
         return ResponseEntity.ok("success");
