@@ -39,6 +39,11 @@ public class PaymentController {
 
         Session session = Session.create(params);
 
+        params.getLineItems().forEach(item -> {
+            Map<String, String> metadata = item.getPriceData().getProductData().getMetadata();
+            System.out.println("Line item metadata: " + metadata);
+        });
+
         return Map.of("url", session.getUrl());
     }
 }

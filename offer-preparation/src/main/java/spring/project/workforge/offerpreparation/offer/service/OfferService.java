@@ -61,34 +61,24 @@ public class OfferService implements IOfferService {
     @Transactional
     @Override
     public OfferResponsePayment createOffer(OfferCreateRequest request) {
-        System.out.println("Info2");
         Location location = findOrCreateLocation(request.location());
-        System.out.println("Info3");
         Offer offer = offerMapper.toEntity(request);
-        System.out.println("Info4");
         offer.setLocation(location);
 
-        System.out.println("Info5");
         checkDateCorrectness(offer);
-        System.out.println("Info6");
         setStatus(offer);
-        System.out.println("Info7");
         offer.setIsPaid(IsPaid.DRAFT);
-        System.out.println("Info8");
 
         Offer savedOffer = offerRepository.save(offer);
-        System.out.println("Info9");
         OfferResponse offerResponse = offerMapper.toResponse(savedOffer);
-        System.out.println("Info10");
 
-        String paymentUrl =  createPayment(savedOffer.getId(), 20000L, "Payment for job offfer");
-        System.out.println("Info11");
+        String paymentUrl = createPayment(savedOffer.getId(), 20000L, "Payment for job offfer");
 
         return new OfferResponsePayment(paymentUrl, offerResponse);
     }
 
     private String createPayment(Long id, Long amount, String description) {
-        PaymentWebClient paymentWebClient = new PaymentWebClient("http://localhost:8081");
+        PaymentWebClient paymentWebClient = new PaymentWebClient("http://payment-service:80");
         PaymentPayload paymentPayload = new PaymentPayload(id, amount, description);
 
         return paymentWebClient.sendPaymentRequest("/api/v1/payments/create-payment", paymentPayload);
