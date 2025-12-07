@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: offer-preparation
-          image: offer-preparation:0.9
+          image: offer-preparation:0.3
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
