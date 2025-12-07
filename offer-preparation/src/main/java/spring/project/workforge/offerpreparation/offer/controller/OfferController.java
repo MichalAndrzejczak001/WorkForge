@@ -9,7 +9,7 @@ import spring.project.workforge.offerpreparation.offer.model.dto.OfferCreateRequ
 import spring.project.workforge.offerpreparation.offer.model.dto.OfferResponse;
 import spring.project.workforge.offerpreparation.offer.model.dto.OfferResponsePayment;
 import spring.project.workforge.offerpreparation.offer.model.dto.OfferUpdateRequest;
-import spring.project.workforge.offerpreparation.offer.service.OfferService;
+import spring.project.workforge.offerpreparation.offer.service.IOfferService;
 
 import java.net.URI;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/api/v1/offers")
 public class OfferController {
 
-    private final OfferService offerService;
+    private final IOfferService offerService;
 
     @GetMapping
     public ResponseEntity<List<OfferResponse>> findOffers(@RequestParam(required = false) String title) {

@@ -1,4 +1,4 @@
-package spring.project.workforge.payment.kafak;
+package spring.project.workforge.payment.stripe.kafka;
 
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,8 @@ public class PaymentProducer {
     }
 
     public void sendPaymentMessage(String message) {
+        //TODO: Zmień na loggera
         System.out.println("Sending Payment Message to Kafka: " + message);
-        kafkaTemplate.send("test-topic", message);
+        kafkaTemplate.send("payment-topic", message);
     }
 }

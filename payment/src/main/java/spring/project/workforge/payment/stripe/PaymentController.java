@@ -13,36 +13,33 @@ public class PaymentController {
 
     @PostMapping("/create-payment")
     public Map<String, String> createCheckoutSession(@RequestBody PaymentPayload payload) throws Exception {
-        SessionCreateParams params =
-                SessionCreateParams.builder()
-                        .setMode(SessionCreateParams.Mode.PAYMENT)
-                        .setSuccessUrl("https://twoja-domena.pl/sukces")
-                        .setCancelUrl("https://twoja-domena.pl/anulowano")
-                        .addLineItem(
-                                SessionCreateParams.LineItem.builder()
-                                        .setQuantity(1L)
-                                        .setPriceData(
-                                                SessionCreateParams.LineItem.PriceData.builder()
-                                                        .setCurrency("pln")
-                                                        .setUnitAmount(payload.getAmount())  // cena w groszach
-                                                        .setProductData(
-                                                                SessionCreateParams.LineItem.PriceData.ProductData.builder()
-                                                                        .setName(payload.getDescription()) // opis/nazwa produktu
-                                                                        .putMetadata("offerId", payload.getId().toString()) // ID w metadanych
-                                                                        .build()
-                                                        )
-                                                        .build()
-                                        )
-                                        .build()
-                        )
-                        .build();
+        SessionCreateParams params = SessionCreateParams.builder()
+                .setMode(SessionCreateParams.Mode.PAYMENT)
+                .setSuccessUrl("https://twoja-domena.pl/sukces")
+                .setCancelUrl("https://twoja-domena.pl/anulowano")
+                .putMetadata("offerId", payload.getId().toString()) // <-- metadata w sesji
+                .addLineItem(
+                        SessionCreateParams.LineItem.builder()
+                                .setQuantity(1L)
+                                .setPriceData(
+                                        SessionCreateParams.LineItem.PriceData.builder()
+                                                .setCurrency("pln")
+                                                .setUnitAmount(payload.getAmount())
+                                                .setProductData(
+                                                        SessionCreateParams.LineItem.PriceData.ProductData.builder()
+                                                                .setName(payload.getDescription())
+                                                                .build()
+                                                )
+                                                .build()
+                                )
+                                .build()
+                )
+                .build();
 
         Session session = Session.create(params);
 
-        params.getLineItems().forEach(item -> {
-            Map<String, String> metadata = item.getPriceData().getProductData().getMetadata();
-            System.out.println("Line item metadata: " + metadata);
-        });
+        Map<String, String> sessionMetadata = session.getMetadata();
+        System.out.println("Session metadata: " + sessionMetadata);
 
         return Map.of("url", session.getUrl());
     }
