@@ -52,6 +52,7 @@ public class Offer {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime endDate;
 
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     private IsPaid isPaid;

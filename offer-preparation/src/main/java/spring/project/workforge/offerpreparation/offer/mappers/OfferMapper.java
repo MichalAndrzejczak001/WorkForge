@@ -1,9 +1,6 @@
 package spring.project.workforge.offerpreparation.offer.mappers;
 
 import lombok.RequiredArgsConstructor;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
 import org.springframework.stereotype.Component;
 import spring.project.workforge.offerpreparation.location.mapper.LocationMapper;
 import spring.project.workforge.offerpreparation.offer.model.dto.OfferCreateRequest;

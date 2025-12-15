@@ -1,7 +1,5 @@
 package spring.project.workforge.offerpreparation.location.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 import spring.project.workforge.offerpreparation.location.model.dto.LocationRequest;
 import spring.project.workforge.offerpreparation.location.model.dto.LocationResponse;
