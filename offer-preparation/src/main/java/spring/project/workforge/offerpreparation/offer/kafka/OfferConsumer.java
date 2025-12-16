@@ -7,7 +7,6 @@ import spring.project.workforge.offerpreparation.offer.model.entity.Offer;
 import spring.project.workforge.offerpreparation.offer.model.enums.IsPaid;
 import spring.project.workforge.offerpreparation.offer.model.excepitons.OfferNotFoundException;
 import spring.project.workforge.offerpreparation.offer.repository.OfferRepository;
-import spring.project.workforge.offerpreparation.offer.service.IOfferService;
 
 @Service
 public class OfferConsumer {
