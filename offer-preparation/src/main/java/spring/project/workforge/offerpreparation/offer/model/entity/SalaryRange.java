@@ -21,11 +21,13 @@ public class SalaryRange {
     @Digits(integer = 10, fraction = 2)
     @Column(precision = 12, scale = 2)
     private BigDecimal min;
+
     @NotNull
     @DecimalMin("0.00")
     @Digits(integer = 10, fraction = 2)
     @Column(precision = 12, scale = 2)
     private BigDecimal max;
+
     @NotBlank
     @Size(min = 3, max = 3)
     @Column(length = 3)

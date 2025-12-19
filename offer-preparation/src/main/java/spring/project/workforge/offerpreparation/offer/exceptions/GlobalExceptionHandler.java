@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import spring.project.workforge.offerpreparation.offer.model.excepitons.OfferInvalidDateException;
 import spring.project.workforge.offerpreparation.offer.model.excepitons.OfferNotFoundException;
+import spring.project.workforge.offerpreparation.offer.model.excepitons.PromotionInvalidDateException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,6 +50,22 @@ public class GlobalExceptionHandler {
             OfferInvalidDateException ex,
             WebRequest request
     ) {
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage(),
+                request.getDescription(false)
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(error);
+    }
+
+    @ExceptionHandler(PromotionInvalidDateException.class)
+    public ResponseEntity<ErrorResponse> handlePromotionInvalidDateException(
+            PromotionInvalidDateException ex,
+            WebRequest request) {
+
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 ex.getMessage(),

@@ -60,7 +60,8 @@ public class OfferController {
     @PutMapping("/{id}")
     public ResponseEntity<OfferResponse> updateOffer(
             @PathVariable @Positive Long id,
-            @Valid @RequestBody OfferUpdateRequest offer) {
+            @Valid @RequestBody OfferUpdateRequest offer
+    ) {
         logger.debug("Updating offer with id: {} with data: {}", id, offer);
         OfferResponse updated = offerService.updateOffer(id, offer);
         logger.info("Offer updated: {}", updated.id());

@@ -14,6 +14,8 @@ import java.util.List;
 public class OfferMapper {
 
     private final LocationMapper locationMapper;
+    private final SalaryRangeMapper salaryRangeMapper;
+    private final PromotionMapper promotionMapper;
 
     /* ===================== CREATE ===================== */
 
@@ -54,12 +56,13 @@ public class OfferMapper {
                 offer.getDescription(),
                 offer.getWorkType(),
                 offer.getTags(),
-                toSalaryRangeResponse(offer.getSalary()),
+                salaryRangeMapper.toSalaryRangeResponse(offer.getSalary()),
                 offer.getExperience(),
                 offer.getStartDate(),
                 offer.getEndDate(),
                 offer.getStatus(),
-                offer.getIsPaid()
+                offer.getIsPaid(),
+                promotionMapper.toPromotionResponse(offer.getPromotion())
         );
     }
 
@@ -90,7 +93,7 @@ public class OfferMapper {
         offer.setEndDate(request.endDate());
 
         offer.setLocation(locationMapper.toEntity(request.location()));
-        offer.setSalary(toSalaryRange(request.salaryRangeRequest()));
+        offer.setSalary(salaryRangeMapper.toSalaryRange(request.salaryRangeRequest()));
     }
 
     private void mapCommonFields(
@@ -108,33 +111,7 @@ public class OfferMapper {
         offer.setEndDate(request.endDate());
 
         offer.setLocation(locationMapper.toEntity(request.location()));
-        offer.setSalary(toSalaryRange(request.salaryRangeRequest()));
+        offer.setSalary(salaryRangeMapper.toSalaryRange(request.salaryRangeRequest()));
     }
 
-    /* ===================== SALARY ===================== */
-
-    private SalaryRange toSalaryRange(SalaryRangeRequest request) {
-        if (request == null) {
-            return null;
-        }
-
-        SalaryRange salary = new SalaryRange();
-        salary.setMin(request.min());
-        salary.setMax(request.max());
-        salary.setCurrency(request.currency());
-
-        return salary;
-    }
-
-    private SalaryRangeResponse toSalaryRangeResponse(SalaryRange salary) {
-        if (salary == null) {
-            return null;
-        }
-
-        return new SalaryRangeResponse(
-                salary.getMin(),
-                salary.getMax(),
-                salary.getCurrency()
-        );
-    }
 }

@@ -23,5 +23,6 @@ public record OfferResponse(
         LocalDateTime startDate,
         LocalDateTime endDate,
         Status status,
-        IsPaid isPaid
+        IsPaid isPaid,
+        PromotionResponse promotionResponse
 ) {}

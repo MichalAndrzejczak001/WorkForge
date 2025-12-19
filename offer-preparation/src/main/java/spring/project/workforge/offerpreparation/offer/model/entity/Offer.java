@@ -90,4 +90,13 @@ public class Offer {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private IsPaid isPaid;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "active", column = @Column(name = "promotion_active")),
+            @AttributeOverride(name = "startDate", column = @Column(name = "promotion_start_date")),
+            @AttributeOverride(name = "endDate", column = @Column(name = "promotion_end_date")),
+            @AttributeOverride(name = "promotionType", column = @Column(name = "promotion_type"))
+    })
+    private Promotion promotion;
 }
