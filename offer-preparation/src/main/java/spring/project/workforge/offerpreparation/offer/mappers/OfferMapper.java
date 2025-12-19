@@ -3,10 +3,9 @@ package spring.project.workforge.offerpreparation.offer.mappers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import spring.project.workforge.offerpreparation.location.mapper.LocationMapper;
-import spring.project.workforge.offerpreparation.offer.model.dto.OfferCreateRequest;
-import spring.project.workforge.offerpreparation.offer.model.dto.OfferResponse;
-import spring.project.workforge.offerpreparation.offer.model.dto.OfferUpdateRequest;
+import spring.project.workforge.offerpreparation.offer.model.dto.*;
 import spring.project.workforge.offerpreparation.offer.model.entity.Offer;
+import spring.project.workforge.offerpreparation.offer.model.entity.SalaryRange;
 
 import java.util.List;
 
@@ -16,55 +15,47 @@ public class OfferMapper {
 
     private final LocationMapper locationMapper;
 
-    // Tworzenie nowej encji Offer z DTO
+    /* ===================== CREATE ===================== */
+
     public Offer toEntity(OfferCreateRequest request) {
-        if (request == null) return null;
+        if (request == null) {
+            return null;
+        }
+
         Offer offer = new Offer();
-        offer.setTitle(request.title());
-        offer.setRecruiter(request.recruiter());
-        offer.setCompany(request.company());
-        offer.setDescription(request.description());
-        offer.setWorkType(request.workType());
-        offer.setTags(request.tags());
-        offer.setSalary(request.salary());
-        offer.setExperience(request.experience());
-        offer.setLocation(locationMapper.toEntity(request.location()));
-        offer.setStartDate(request.startDate());
-        offer.setEndDate(request.endDate());
+        mapCommonFields(request, offer);
+
         return offer;
     }
 
-    // Aktualizacja istniejącej encji Offer z DTO
+    /* ===================== UPDATE ===================== */
+
     public void updateEntityFromRequest(OfferUpdateRequest request, Offer offer) {
-        if (request == null || offer == null) return;
-        offer.setTitle(request.title());
-        offer.setRecruiter(request.recruiter());
-        offer.setCompany(request.company());
-        offer.setDescription(request.description());
-        offer.setWorkType(request.workType());
-        offer.setTags(request.tags());
-        offer.setSalary(request.salary());
-        offer.setExperience(request.experience());
-        offer.setLocation(locationMapper.toEntity(request.location()));
-        offer.setStartDate(request.startDate());
-        offer.setEndDate(request.endDate());
+        if (request == null || offer == null) {
+            return;
+        }
+
+        mapCommonFields(request, offer);
     }
 
-    // Encja -> DTO
+    /* ===================== RESPONSE ===================== */
+
     public OfferResponse toResponse(Offer offer) {
-        if (offer == null) return null;
+        if (offer == null) {
+            return null;
+        }
+
         return new OfferResponse(
                 offer.getId(),
                 offer.getTitle(),
                 offer.getRecruiter(),
                 offer.getCompany(),
+                locationMapper.toResponse(offer.getLocation()),
                 offer.getDescription(),
                 offer.getWorkType(),
                 offer.getTags(),
-                offer.getSalary(),
+                toSalaryRangeResponse(offer.getSalary()),
                 offer.getExperience(),
-                locationMapper.toResponse(offer.getLocation()
-                ),
                 offer.getStartDate(),
                 offer.getEndDate(),
                 offer.getStatus(),
@@ -72,11 +63,78 @@ public class OfferMapper {
         );
     }
 
-    // Lista encji -> lista DTO
     public List<OfferResponse> toResponseList(List<Offer> offers) {
-        if (offers == null) return null;
+        if (offers == null) {
+            return List.of();
+        }
+
         return offers.stream()
                 .map(this::toResponse)
                 .toList();
+    }
+
+    /* ===================== SHARED LOGIC ===================== */
+
+    private void mapCommonFields(
+            OfferCreateRequest request,
+            Offer offer
+    ) {
+        offer.setTitle(request.title());
+        offer.setRecruiter(request.recruiter());
+        offer.setCompany(request.company());
+        offer.setDescription(request.description());
+        offer.setWorkType(request.workType());
+        offer.setTags(request.tags());
+        offer.setExperience(request.experience());
+        offer.setStartDate(request.startDate());
+        offer.setEndDate(request.endDate());
+
+        offer.setLocation(locationMapper.toEntity(request.location()));
+        offer.setSalary(toSalaryRange(request.salaryRangeRequest()));
+    }
+
+    private void mapCommonFields(
+            OfferUpdateRequest request,
+            Offer offer
+    ) {
+        offer.setTitle(request.title());
+        offer.setRecruiter(request.recruiter());
+        offer.setCompany(request.company());
+        offer.setDescription(request.description());
+        offer.setWorkType(request.workType());
+        offer.setTags(request.tags());
+        offer.setExperience(request.experience());
+        offer.setStartDate(request.startDate());
+        offer.setEndDate(request.endDate());
+
+        offer.setLocation(locationMapper.toEntity(request.location()));
+        offer.setSalary(toSalaryRange(request.salaryRangeRequest()));
+    }
+
+    /* ===================== SALARY ===================== */
+
+    private SalaryRange toSalaryRange(SalaryRangeRequest request) {
+        if (request == null) {
+            return null;
+        }
+
+        SalaryRange salary = new SalaryRange();
+        salary.setMin(request.min());
+        salary.setMax(request.max());
+        salary.setCurrency(request.currency());
+
+        return salary;
+    }
+
+    private SalaryRangeResponse toSalaryRangeResponse(SalaryRange salary) {
+        if (salary == null) {
+            return null;
+        }
+
+        return new SalaryRangeResponse(
+                salary.getMin(),
+                salary.getMax(),
+                salary.getCurrency()
+        );
     }
 }

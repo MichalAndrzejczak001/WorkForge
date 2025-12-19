@@ -1,6 +1,7 @@
 package spring.project.workforge.offerpreparation.offer.model.dto;
 
 import spring.project.workforge.offerpreparation.location.model.dto.LocationResponse;
+import spring.project.workforge.offerpreparation.location.model.entity.Location;
 import spring.project.workforge.offerpreparation.offer.model.enums.IsPaid;
 import spring.project.workforge.offerpreparation.offer.model.enums.Status;
 import spring.project.workforge.offerpreparation.offer.model.enums.WorkType;
@@ -13,12 +14,12 @@ public record OfferResponse(
         String title,
         String recruiter,
         String company,
+        LocationResponse location,
         String description,
         WorkType workType,
         List<String> tags,
-        List<Double> salary,
+        SalaryRangeResponse salaryRangeResponse,
         Double experience,
-        LocationResponse location,
         LocalDateTime startDate,
         LocalDateTime endDate,
         Status status,
