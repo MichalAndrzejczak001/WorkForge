@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: fastapi-chatgpt
-        image: fastapi-chatgpt:0.2
+        image: fastapi-chatgpt:0.7
         ports:
         - containerPort: 8000
         env:

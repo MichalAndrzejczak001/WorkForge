@@ -18,6 +18,12 @@ SYSTEM_PROMPT = (
     "Zwróć WYŁĄCZNIE poprawiony tekst, bez komentarzy, wyjaśnień ani formatowania."
 )
 
+SYSTEM_PROMPT2 = (
+    "Masz przed sobą opis ofert pracy. "
+    "Przeanalizuj go i wypisz w punktach czego w nim brakuje "
+    "Wypisz tylko same punkty, bez żadnych dodatków."
+)
+
 async def improve_text(text: str) -> str:
     response = await client.chat.completions.create(
         model="gpt-4o-mini",
@@ -30,4 +36,14 @@ async def improve_text(text: str) -> str:
 
     return response.choices[0].message.content.strip()
 
-    return response.choices[0].message.content
+async def find_gaps(text: str) -> str:
+    response = await client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT2},
+            {"role": "user", "content": text},
+        ],
+        temperature=0.3,
+    )
+
+    return response.choices[0].message.content.strip()
