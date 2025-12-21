@@ -6,7 +6,7 @@ import reactor.core.publisher.Mono;
 import java.util.Map;
 
 public class PaymentWebClient {
-    WebClient webClient;
+    private final WebClient webClient;
 
     public PaymentWebClient(String mainUrl) {
         webClient = WebClient.create(mainUrl);

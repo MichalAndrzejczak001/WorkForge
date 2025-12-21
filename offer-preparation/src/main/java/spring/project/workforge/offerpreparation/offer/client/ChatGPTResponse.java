@@ -1,4 +1,4 @@
-package spring.project.workforge.offerpreparation.offer.model.dto;
+package spring.project.workforge.offerpreparation.offer.client;
 
 public record ChatGPTResponse (
         Long id,
