@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-chatgpt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fastapi-chatgpt
+  template:
+    metadata:
+      labels:
+        app: fastapi-chatgpt
+    spec:
+      containers:
+      - name: fastapi-chatgpt
+        image: fastapi-chatgpt:0.2
+        ports:
+        - containerPort: 8000
+        env:
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: openai-secret
+              key: OPENAI_API_KEY
