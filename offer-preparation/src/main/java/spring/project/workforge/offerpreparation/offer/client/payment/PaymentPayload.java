@@ -1,4 +1,4 @@
-package spring.project.workforge.offerpreparation.offer.client;
+package spring.project.workforge.offerpreparation.offer.client.payment;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

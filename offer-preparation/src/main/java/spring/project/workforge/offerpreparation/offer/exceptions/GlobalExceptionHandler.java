@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import spring.project.workforge.offerpreparation.offer.model.excepitons.EmptyOfferDescriptionException;
 import spring.project.workforge.offerpreparation.offer.model.excepitons.OfferInvalidDateException;
 import spring.project.workforge.offerpreparation.offer.model.excepitons.OfferNotFoundException;
 import spring.project.workforge.offerpreparation.offer.model.excepitons.PromotionInvalidDateException;
@@ -74,6 +75,22 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
+                .body(error);
+    }
+
+    @ExceptionHandler(EmptyOfferDescriptionException.class)
+    public ResponseEntity<ErrorResponse> handleEmptyOfferDescriptionException(
+            EmptyOfferDescriptionException ex,
+            WebRequest request) {
+
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                ex.getMessage(),
+                request.getDescription(false)
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.UNPROCESSABLE_ENTITY)
                 .body(error);
     }
 }

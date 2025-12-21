@@ -1,4 +1,4 @@
-package spring.project.workforge.offerpreparation.offer.client;
+package spring.project.workforge.offerpreparation.offer.client.payment;
 
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;

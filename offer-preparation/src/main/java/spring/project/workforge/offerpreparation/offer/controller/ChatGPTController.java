@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import spring.project.workforge.offerpreparation.offer.client.ChatGPTResponse;
+import spring.project.workforge.offerpreparation.offer.client.chatgpt.ChatGPTResponse;
 import spring.project.workforge.offerpreparation.offer.service.ChatGPTService;
 
 @Validated

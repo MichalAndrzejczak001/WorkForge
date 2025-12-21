@@ -7,4 +7,4 @@ spring:
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 chatgpt:
   base-url: http://fastapi-chatgpt-service:80
-  timeout: 10s
+  timeout: 5s

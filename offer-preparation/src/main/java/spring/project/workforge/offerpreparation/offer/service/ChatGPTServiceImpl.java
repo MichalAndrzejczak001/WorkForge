@@ -2,54 +2,53 @@ package spring.project.workforge.offerpreparation.offer.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import spring.project.workforge.offerpreparation.offer.client.ChatGPTResponse;
-import spring.project.workforge.offerpreparation.offer.client.ChatGPTWebClient;
+import spring.project.workforge.offerpreparation.offer.client.chatgpt.ChatGPTResponse;
+import spring.project.workforge.offerpreparation.offer.client.chatgpt.ChatGptWebClient;
 import spring.project.workforge.offerpreparation.offer.model.entity.Offer;
 import spring.project.workforge.offerpreparation.offer.model.excepitons.OfferNotFoundException;
 import spring.project.workforge.offerpreparation.offer.repository.OfferRepository;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class ChatGPTServiceImpl implements ChatGPTService {
+
     private final OfferRepository offerRepository;
+    private final ChatGptWebClient chatGPTWebClient;
 
     @Override
     public ChatGPTResponse getCorrectedOfferDescription(Long id) {
-        Offer offer = offerRepository.findById(id)
-                .orElseThrow(() -> new OfferNotFoundException("Offer with id " + id + " not found"));
+        Offer offer = getOffer(id);
 
-        String description = offer.getDescription();
+        String description = validateDescription(offer);
 
-        String correctedDescription = sendChatGPTQuestion(description);
+        String corrected = chatGPTWebClient.improveText(description);
 
-        ChatGPTResponse chatGPTResponse = new ChatGPTResponse(id, correctedDescription);
-
-        return chatGPTResponse;
-    }
-
-    private String sendChatGPTQuestion(String description) {
-        ChatGPTWebClient chatGPTWebClient = new ChatGPTWebClient("http://fastapi-chatgpt-service:80");
-
-        return chatGPTWebClient.getCorrectedOfferDescription(description);
+        return new ChatGPTResponse(id, corrected);
     }
 
     @Override
     public ChatGPTResponse getGapsInOfferDescription(Long id) {
-        Offer offer = offerRepository.findById(id)
-                .orElseThrow(() -> new OfferNotFoundException("Offer with id " + id + " not found"));
+        Offer offer = getOffer(id);
 
-        String description = offer.getDescription();
+        String description = validateDescription(offer);
 
-        String gaps = sendChatGPTQuestionForGaps(description);
+        String gaps = chatGPTWebClient.findGaps(description);
 
-        ChatGPTResponse chatGPTResponse = new ChatGPTResponse(id, gaps);
-
-        return chatGPTResponse;
+        return new ChatGPTResponse(id, gaps);
     }
 
-    private String sendChatGPTQuestionForGaps(String description) {
-        ChatGPTWebClient chatGPTWebClient = new ChatGPTWebClient("http://fastapi-chatgpt-service:80");
+    private Offer getOffer(Long id) {
+        return offerRepository.findById(id)
+                .orElseThrow(() ->
+                        new OfferNotFoundException("Offer with id " + id + " not found"));
+    }
 
-        return chatGPTWebClient.getGapsFromOfferDescription(description);
+    private String validateDescription(Offer offer) {
+        String description = offer.getDescription();
+
+        if (description == null || description.isBlank()) {
+            throw new IllegalStateException("Offer description is empty");
+        }
+        return description;
     }
 }
